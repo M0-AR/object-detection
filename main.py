@@ -36,7 +36,7 @@ from midjourney_api import generate_image_by_midjourney
 
 # Load the original image and the new window design
 original_image = cv2.imread('one-window.jpg')
-generate_image_by_midjourney('just white window  width: 62.0 height: 82.0')
+generate_image_by_midjourney('hourse')
 
 time.sleep(2)
 new_window_design = cv2.imread('midjourney.png')

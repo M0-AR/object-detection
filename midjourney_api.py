@@ -42,7 +42,7 @@ def save_encoded_image(encoded_image, file_name):
 
 
 def generate_image_by_midjourney(prompt):
-    txt2img_url = 'http://65a4-34-143-140-24.ngrok.io'
+    txt2img_url = 'http://6794-104-199-116-250.ngrok.io'
     data = {'prompt': prompt}
     response = submit_post(txt2img_url, data)
     save_encoded_image(response.content, 'midjourney.png')
