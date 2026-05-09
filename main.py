@@ -34,10 +34,9 @@ import time
 import cv2
 import numpy as np
 
-"""
 
 from midjourney_api import generate_image_by_midjourney
-# generate_image_by_midjourney('window')
+generate_image_by_midjourney('window')
 
 # Load the original image and the new window design
 original_image = cv2.imread('one-window.jpg')
@@ -75,7 +74,6 @@ cv2.waitKey(0)
 cv2.destroyAllWindows()
 
 
-"""
 # import cv2
 # import numpy as np
 # import time
@@ -300,60 +298,60 @@ import math
 # cv2.destroyAllWindows()
 
 
-import time
-import cv2
-import numpy as np
-
-# Load the original image and the new window design
-original_image = cv2.imread('home.jpg')
-new_window_design = cv2.imread('window.jpg')
-
-# JSON response: This response coming from Roboflow api
-response = {
-    'predictions': [
-        {
-            'x': 198.0, 'y': 161.0, 'width': 62.0, 'height': 82.0, 'confidence': 0.6979602575302124, 'class': 'window', 'image_path': 'one-window.jpg', 'prediction_type': 'ObjectDetectionModel'
-        }
-    ], 'image': {'width': '460', 'height': '307'}
-}
-
-# Extract the detected window coordinates (center) and size
-x_center, y_center, width, height = int(response['predictions'][0]['x']), int(response['predictions'][0]['y']), int(response['predictions'][0]['width']), int(response['predictions'][0]['height'])
-
-# Calculate the corner points of the window region
-x1, y1 = x_center - width // 2, y_center - height // 2
-x2, y2 = x_center + width // 2, y_center - height // 2
-x3, y3 = x_center + width // 2, y_center + height // 2
-x4, y4 = x_center - width // 2, y_center + height // 2
+# import time
+# import cv2
+# import numpy as np
 #
-# Define points in the source image (window image)
-src_points = np.float32([[0, 0], [new_window_design.shape[1] - 1, 0], [new_window_design.shape[1] - 1, new_window_design.shape[0] - 1], [0, new_window_design.shape[0] - 1]])
-
-# Define points in the destination image (original image)
-epsilon = 5
-dst_points = np.float32([[x1, y1], [x2, y2 - epsilon], [x3, y3 - epsilon], [x4, y4 - epsilon]])
-
-# Compute the perspective transformation matrix
-M = cv2.getPerspectiveTransform(src_points, dst_points)
-# Apply the transformation to the window image
-new_window_transformed = cv2.warpPerspective(new_window_design, M, (original_image.shape[1], original_image.shape[0]))
-
-# Compute the homography transformation matrix
-# H, _ = cv2.findHomography(src_points, dst_points)
-# Apply the transformation to the window image
-# new_window_transformed = cv2.warpPerspective(new_window_design, H, (original_image.shape[1], original_image.shape[0]))
-
-# Create a mask to overlay the new window on the original image
-mask = np.zeros(original_image.shape, dtype=np.uint8)
-cv2.fillPoly(mask, [np.int32(dst_points)], (255, 255, 255))
-mask_inverse = cv2.bitwise_not(mask)
-
-# Use the mask to blend the original image and transformed window image
-original_image = cv2.bitwise_and(original_image, mask_inverse)
-new_window_transformed = cv2.bitwise_and(new_window_transformed, mask)
-final_image = cv2.add(original_image, new_window_transformed)
-
-# Show the updated original image with the replaced window
-cv2.imshow('Modified Image', final_image)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+# # Load the original image and the new window design
+# original_image = cv2.imread('home.jpg')
+# new_window_design = cv2.imread('window.jpg')
+#
+# # JSON response: This response coming from Roboflow api
+# response = {
+#     'predictions': [
+#         {
+#             'x': 198.0, 'y': 161.0, 'width': 62.0, 'height': 82.0, 'confidence': 0.6979602575302124, 'class': 'window', 'image_path': 'one-window.jpg', 'prediction_type': 'ObjectDetectionModel'
+#         }
+#     ], 'image': {'width': '460', 'height': '307'}
+# }
+#
+# # Extract the detected window coordinates (center) and size
+# x_center, y_center, width, height = int(response['predictions'][0]['x']), int(response['predictions'][0]['y']), int(response['predictions'][0]['width']), int(response['predictions'][0]['height'])
+#
+# # Calculate the corner points of the window region
+# x1, y1 = x_center - width // 2, y_center - height // 2
+# x2, y2 = x_center + width // 2, y_center - height // 2
+# x3, y3 = x_center + width // 2, y_center + height // 2
+# x4, y4 = x_center - width // 2, y_center + height // 2
+# #
+# # Define points in the source image (window image)
+# src_points = np.float32([[0, 0], [new_window_design.shape[1] - 1, 0], [new_window_design.shape[1] - 1, new_window_design.shape[0] - 1], [0, new_window_design.shape[0] - 1]])
+#
+# # Define points in the destination image (original image)
+# epsilon = 5
+# dst_points = np.float32([[x1, y1], [x2, y2 - epsilon], [x3, y3 - epsilon], [x4, y4 - epsilon]])
+#
+# # Compute the perspective transformation matrix
+# M = cv2.getPerspectiveTransform(src_points, dst_points)
+# # Apply the transformation to the window image
+# new_window_transformed = cv2.warpPerspective(new_window_design, M, (original_image.shape[1], original_image.shape[0]))
+#
+# # Compute the homography transformation matrix
+# # H, _ = cv2.findHomography(src_points, dst_points)
+# # Apply the transformation to the window image
+# # new_window_transformed = cv2.warpPerspective(new_window_design, H, (original_image.shape[1], original_image.shape[0]))
+#
+# # Create a mask to overlay the new window on the original image
+# mask = np.zeros(original_image.shape, dtype=np.uint8)
+# cv2.fillPoly(mask, [np.int32(dst_points)], (255, 255, 255))
+# mask_inverse = cv2.bitwise_not(mask)
+#
+# # Use the mask to blend the original image and transformed window image
+# original_image = cv2.bitwise_and(original_image, mask_inverse)
+# new_window_transformed = cv2.bitwise_and(new_window_transformed, mask)
+# final_image = cv2.add(original_image, new_window_transformed)
+#
+# # Show the updated original image with the replaced window
+# cv2.imshow('Modified Image', final_image)
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()
